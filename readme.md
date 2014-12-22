@@ -33,9 +33,8 @@ $> Boom!
 
 *** HIP_ROOM *** - Name or ID of the Hipchat room
 
-** Optional: **
-
-*** BOT_NAME *** - The name to be used as the bot alias, default is "5b"
+*** Optional ***
+*** JENKINS_AUTH *** - Used for jenkins build as part of the deploy.plugin (e.g. username:authkey)
 
 #### Architecture
 (Big word for small code base)

@@ -5,7 +5,6 @@
  */
 
 var request = require('request'),
-  botName = process.env.BOT_NAME || '5b',
   hipToken = process.env.HIP_TOKEN,
   hipRoomName = process.env.HIP_ROOM,
   postUrl = 'https://api.hipchat.com/v2/room/@PLACE_HOLDER@/notification?auth_token=' + hipToken,
@@ -20,7 +19,7 @@ var requestPayload = {
   "notify": true,
   "color": "purple",
   "message_format": "html"
-}
+};
 
 var lastMessages = {};
 var MAX_MSG_LENGTH = 100;
@@ -36,13 +35,12 @@ function postMessageToRoom(room, message, callBack) {
   }, function(error, response, body) {
     callBack(error);
   });
-};
+}
 
 function listenForRoom() {
   var room = hipRoomName;
 
   var targetUrl = readMessageUrl.replace('@PLACE_HOLDER@', room);
-
   request.get({
     headers: headers,
     url: targetUrl
@@ -53,16 +51,17 @@ function listenForRoom() {
     }
 
     if(Object.keys(lastMessages).length === 0) {
-      console.log(botName + ' is alive!');
+      console.log('It\'s alive!');
       results.items.forEach(function(item) {
-        lastMessages[item.id] = true
+        lastMessages[item.id] = true;
       });
     } else {
       results.items.forEach(function(item) {
         var newMessage = typeof(lastMessages[item.id]) === 'undefined';
         lastMessages[item.id] = true;
         var instruction = item.message;
-        if(newMessage && instruction.indexOf(botName) === 0) {
+        if (newMessage) { console.log('New message..'); }
+        if(newMessage && instruction.indexOf('!') === 0) {
           performAction(instruction);
         }
       });
@@ -94,15 +93,16 @@ function cleanUpIfNeeded() {
 }
 
 function performAction(instruction) {
-  console.log('Request  - /' + instruction + '/')
-  var moduleToExecute = instruction.replace(botName, '').trim();
+  console.log('Request  - /' + instruction + '/');
+
+  var moduleToExecute = instruction.replace('!', '').trim();
   var params = moduleToExecute.split(' ');
   var plugin = null;
   try {
-    plugin = require('./plugins/' + params[0])
+    plugin = require('./plugins/' + params[0]);
   } catch(e) {
     console.error(e);
-    postMessageToRoom(hipRoomName, 'b5 sais: \'Damn! failed executing: /' + params[0] + '/', errorOnError);
+    postMessageToRoom(hipRoomName, 'bot saying: \'Damn! failed executing: /' + params[0] + '/', errorOnError);
     return false;
   }
   var results = plugin.run(params);
@@ -111,7 +111,7 @@ function performAction(instruction) {
 
 function errorOnError(err) {
   if(err) {
-    console.err(err)
+    console.err(err);
   }
 }
 
