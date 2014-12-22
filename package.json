@@ -1,0 +1,15 @@
+{
+  "name": "5b-hipchat-bot",
+  "version": "1.0.0",
+  "description": "Simple HTTP based hipchat bot. Not as efficient as XMPP but simple to set up..",
+  "main": "app.js",
+  "scripts": {
+    "start": "node --harmony 5b.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Avner Cohen",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.51.0"
+  }
+}
