@@ -28,9 +28,19 @@ $> HIP_TOKEN=your_hipchat_api_token HIP_ROOM=room_name_or_id npm start
 $> Boom!
 </pre>
 
-#### "Architecture"
+#### Configurations
+*** HIP_TOKEN *** - Api HipChat token
+
+*** HIP_ROOM *** - Name or ID of the Hipchat room
+
+** Optional: **
+
+*** BOT_NAME *** - The name to be used as the bot alias, default is "5b"
+
+#### Architecture
 (Big word for small code base)
 I want it to be simple, and extendible. I am perfectly fine with getting the bot to response in a delay of 2-5 seconds.
 So:
+
 1. Plugins folder is where you set up your methods. Each module should export method "run()", that's pefroms the actual command and reply with a string of some sort.
-2. Every ~1.5sec a new message is searched for.
+*. Every ~1.5sec a new message is searched for.
